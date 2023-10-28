@@ -30,9 +30,21 @@ type SafaEvent = {
   description: string;
   latitude: number;
   longitude: number;
-  leaderName: string | undefined;
   startedAt: Date | undefined;
   completedAt: Date | undefined;
+};
+
+type SafaEventDraft = {
+  title: string;
+  description: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  participantCount: number;
+  unitPrice: number;
+  willStartAt: Date;
+  willCompleteAt: Date;
+  applicationDeadline: Date;
 };
 
 type Participant = {

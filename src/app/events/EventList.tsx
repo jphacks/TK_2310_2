@@ -3,8 +3,10 @@ import {
   Alert,
   AlertTitle,
   Box,
+  Button,
   LinearProgress,
   Paper,
+  Stack,
   Typography,
 } from '@mui/material';
 import {
@@ -16,6 +18,8 @@ import {
 } from '@mui/x-data-grid';
 import EventStatusChop from './_components/EventStatusChip';
 import ApplicationProgress from './_components/ApplicationProgress';
+import Link from 'next/link';
+import AddIcon from '@mui/icons-material/Add';
 
 type EventListProps = {
   events: SafaEvent[] | undefined;
@@ -82,9 +86,16 @@ const EventList = ({ events, error, isLoading }: EventListProps) => {
         </Box>
       )}
       <Box sx={{ p: 4 }}>
-        <Typography variant='h2' sx={{ mb: 4 }}>
-          イベント一覧
-        </Typography>
+        <Stack direction='row' justifyContent='space-between'>
+          <Typography variant='h2' sx={{ mb: 4 }}>
+            イベント一覧
+          </Typography>
+          <Link href='/events/create'>
+            <Button variant='contained' startIcon={<AddIcon />}>
+              イベントを作成する
+            </Button>
+          </Link>
+        </Stack>
         {error && (
           <Alert severity='error' sx={{ mb: 4 }}>
             <AlertTitle>データを取得できませんでした</AlertTitle>
