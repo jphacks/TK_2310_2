@@ -1,13 +1,14 @@
 'use client';
-import { Container } from '@mui/system';
+
 import CreateEventInput from './_components/CreateEventInput';
 import AppBar from '@/app/_components/AppBar';
+import { Container } from '@mui/system';
 
 const EventCreatePage = () => {
   return (
     <div>
       <AppBar />
-      <Container maxWidth='md'>
+      <Container maxWidth='lg'>
         <CreateEventInput />
       </Container>
     </div>
