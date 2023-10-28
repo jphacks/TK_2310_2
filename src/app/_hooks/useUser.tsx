@@ -44,10 +44,16 @@ const useUser = () => {
   useEffect(() => {
     if (!token) return;
     if (!userId) return;
-    getUser(token, userId).then((currentUser) => {
-      setUser(currentUser);
-    });
-  }, [userId, token, setUser]);
+    (async () => {
+      // トークンの有効期限が切れていたらトークンを更新
+      const newToken = await getNewTokenIfNeed(token);
+      if (newToken !== token) {
+        setToken(newToken);
+      }
+      const user = await getUser(token, userId);
+      setUser(user);
+    })();
+  }, [userId, token, setUser, setToken]);
 
   const logout = () => {
     auth.signOut();
@@ -92,4 +98,18 @@ const getUser = async (token: string, userId: string) => {
     age: body.age,
   };
   return user;
+};
+
+const getNewTokenIfNeed = async (token: string) => {
+  const user = auth.currentUser;
+  if (!user) return;
+  const tokenResult = await user.getIdTokenResult();
+  const expirationTime = tokenResult.expirationTime; // トークンの有効期限
+  const currentTime = new Date();
+
+  // 有効期限が2分未満になっていたらトークンを更新
+  if (new Date(expirationTime).getTime() - currentTime.getTime() < 120000) {
+    return await user.getIdToken(true);
+  }
+  return token;
 };
