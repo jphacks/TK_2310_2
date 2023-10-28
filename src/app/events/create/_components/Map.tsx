@@ -1,7 +1,6 @@
 import { Wrapper } from '@googlemaps/react-wrapper';
 import { Box, Typography } from '@mui/material';
 import { GoogleMap, Marker } from '@react-google-maps/api';
-import { useState } from 'react';
 
 const apiKey = 'AIzaSyDKPUE8NncfZsSa-BszPRdIHfpWsXGuFm0';
 
@@ -9,8 +8,16 @@ type Props = {
   latitude: number;
   longitude: number;
   setLatitudeLongitude: (latitude: number, longitude: number) => void;
+  address: string;
+  setAddress: (address: string) => void;
 };
-const Map = ({ latitude, longitude, setLatitudeLongitude }: Props) => {
+const Map = ({
+  latitude,
+  longitude,
+  setLatitudeLongitude,
+  address,
+  setAddress,
+}: Props) => {
   const containerStyle = {
     width: '100%',
     height: '500px',
@@ -30,17 +37,13 @@ const Map = ({ latitude, longitude, setLatitudeLongitude }: Props) => {
     updateAddress(lat, lng);
   };
 
-  const [address, setAddress] = useState<string | null>(null);
-
-  const updateAddress = (latitude: number, longitude: number) => {
-    if (latitude && longitude) {
-      try {
-        getJapaneseAddress(latitude, longitude).then((address) => {
-          setAddress(address);
-        });
-      } catch (error) {
-        console.log(error);
-      }
+  const updateAddress = async (latitude: number, longitude: number) => {
+    try {
+      const address = await getJapaneseAddress(latitude, longitude);
+      if (!address) return;
+      setAddress(address);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -82,7 +85,6 @@ async function getJapaneseAddress(
     geocoder.geocode({ location: latLng }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
         if (results && results[0]) {
-          console.log(results);
           const address = results[0].formatted_address.replace(
             /^日本、〒\d{3}-\d{4} /,
             '',

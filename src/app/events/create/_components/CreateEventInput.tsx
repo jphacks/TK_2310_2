@@ -36,7 +36,7 @@ const CreateEventInput = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const setLatitudeLongitude = (latitude: number, longitude: number) => {
-    setEventDraft({ ...eventDraft, latitude, longitude });
+    setEventDraft((current) => ({ ...current, latitude, longitude }));
   };
 
   const { user, token } = useUser();
@@ -77,6 +77,10 @@ const CreateEventInput = () => {
               latitude={eventDraft.latitude}
               longitude={eventDraft.longitude}
               setLatitudeLongitude={setLatitudeLongitude}
+              address={eventDraft.address}
+              setAddress={(address) => {
+                setEventDraft((current) => ({ ...current, address }));
+              }}
             />
           </Box>
         </Carousel>
