@@ -24,15 +24,15 @@ export const mainTheme = createTheme({
   },
   palette: {
     primary: {
+      main: '#88501A',
+      contrastText: '#fff',
+      light: '#FDF1DB',
+    },
+    secondary: {
       main: '#6D9B00',
       contrastText: '#fff',
       light: '#E3F4C1',
       dark: '#51661E',
-    },
-    secondary: {
-      main: '#88501A',
-      contrastText: '#fff',
-      light: '#FDF1DB',
     },
   },
 });
@@ -41,4 +41,5 @@ export const appColors = {
   primaryAccent: '#C6F075',
   bgGray: '#f0f0f0',
   textGray: '#888888',
+  bgOrange: '#FFFFF5E0',
 };
