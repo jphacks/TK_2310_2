@@ -13,19 +13,20 @@ type SafaEvent = {
   title: string;
   hostCompanyName: string;
   address: string;
+  /** 募集人数 */
   participantCount: number;
   unitPrice: number;
   willStartAt: Date;
   willCompleteAt: Date;
   applicationDeadline: Date;
   leaderName: string | undefined;
+
   status: {
     label: string;
     color: string;
   };
-};
+  participants: Participant[];
 
-type SafaEventDetail = SafaEvent & {
   description: string;
   latitude: number;
   longitude: number;

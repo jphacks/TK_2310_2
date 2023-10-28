@@ -1,5 +1,12 @@
 import { formatDate, formatDurationDate } from '@/lib/formatDate';
-import { Alert, AlertTitle, Chip, Paper, Typography } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  LinearProgress,
+  Paper,
+  Typography,
+} from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -7,38 +14,27 @@ import {
   GridTreeNodeWithRender,
   GridValueGetterParams,
 } from '@mui/x-data-grid';
+import EventStatusChop from './_components/EventStatusChip';
+import ApplicationProgress from './_components/ApplicationProgress';
 
 type EventListProps = {
   events: SafaEvent[] | undefined;
   error: Error | undefined;
+  isLoading: boolean;
 };
 
-const EventList = ({ events, error }: EventListProps) => {
+const EventList = ({ events, error, isLoading }: EventListProps) => {
   const columns: GridColDef[] = [
     {
       field: 'status',
       headerName: 'ステータス',
       width: 120,
-      renderCell: (
-        params: GridRenderCellParams<
-          SafaEvent,
-          undefined,
-          undefined,
-          GridTreeNodeWithRender
-        >,
-      ) => {
-        return (
-          <Chip
-            sx={{
-              backgroundColor: params.row.status.color,
-              color: 'black',
-              padding: '4px 8px',
-              width: '100%',
-            }}
-            label={params.row.status.label}
-          />
-        );
-      },
+      renderCell: (params: GridRenderCellParams) => (
+        <EventStatusChop
+          label={params.row.status.label}
+          color={params.row.status.color}
+        />
+      ),
     },
     { field: 'title', headerName: 'イベント名', width: 350 },
     {
@@ -55,35 +51,63 @@ const EventList = ({ events, error }: EventListProps) => {
       valueGetter: (params: GridValueGetterParams) =>
         formatDurationDate(params.row.willStartAt, params.row.willCompleteAt),
     },
+    {
+      field: 'applicationCount',
+      headerName: '申込状況',
+      width: 120,
+      renderCell: (
+        params: GridRenderCellParams<
+          SafaEvent,
+          undefined,
+          undefined,
+          GridTreeNodeWithRender
+        >,
+      ) => {
+        return (
+          <ApplicationProgress
+            participantCount={params.row.participants.length}
+            maxParticipantCount={params.row.participantCount}
+            highlight={params.row.status.label === '募集中'}
+          />
+        );
+      },
+    },
   ];
 
   return (
-    <Paper sx={{ p: 4 }} elevation={0}>
-      <Typography variant='h2' sx={{ mb: 4 }}>
-        イベント一覧
-      </Typography>
-      {error && (
-        <Alert severity='error' sx={{ mb: 4 }}>
-          <AlertTitle>データを取得できませんでした</AlertTitle>
-          {error.message}
-        </Alert>
+    <Paper elevation={0}>
+      {isLoading && (
+        <Box>
+          <LinearProgress />
+        </Box>
       )}
-      <DataGrid
-        rows={events || []}
-        columns={columns}
-        sx={{
-          border: 'none',
-          // 横線を消す
-          '& .MuiDataGrid-cell': {
+      <Box sx={{ p: 4 }}>
+        <Typography variant='h2' sx={{ mb: 4 }}>
+          イベント一覧
+        </Typography>
+        {error && (
+          <Alert severity='error' sx={{ mb: 4 }}>
+            <AlertTitle>データを取得できませんでした</AlertTitle>
+            {error.message}
+          </Alert>
+        )}
+        <DataGrid
+          rows={events || []}
+          columns={columns}
+          sx={{
             border: 'none',
-          },
-          fontSize: '1rem',
-          // ヘッダーの文字色
-          '& .MuiDataGrid-columnHeaderTitle': {
-            color: 'gray',
-          },
-        }}
-      />
+            // 横線を消す
+            '& .MuiDataGrid-cell': {
+              border: 'none',
+            },
+            fontSize: '1rem',
+            // ヘッダーの文字色
+            '& .MuiDataGrid-columnHeaderTitle': {
+              color: 'gray',
+            },
+          }}
+        />
+      </Box>
     </Paper>
   );
 };

@@ -23,7 +23,7 @@ const AppBar = () => {
             SAFA
           </Typography>
           <Typography variant='h3' color='secondary'>
-            ビジネスダッシュボード
+            Business Dashboard
           </Typography>
         </div>
         <Paper

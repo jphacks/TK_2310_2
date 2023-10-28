@@ -1,33 +1,28 @@
 import useUser from '@/app/_hooks/useUser';
 import fetchApi from '@/lib/fetch';
-import { appColors } from '@/themes/main';
 import { useCallback, useEffect, useState } from 'react';
 import { getEvent } from './useEvent';
 
+/**
+ * ユーザーが主催するイベント一覧を取得し、loadingと発生したエラーを提供する
+ * @returns
+ */
 const useEvents = () => {
   const { user, token } = useUser();
-  const [events, setEvents] = useState<SafaEventDetail[] | undefined>(
-    undefined,
-  );
-  const [error, setError] = useState<Error | undefined>(undefined);
 
-  const isLoading = !!events;
+  const [events, setEvents] = useState<SafaEvent[]>();
+  const [error, setError] = useState<Error>();
+
+  const isLoading = !events && !error;
 
   const get = useCallback(async () => {
-    if (!token || !user?.companyId) {
+    if (!token || !user) {
       return;
     }
+    setError(undefined);
     try {
       const currentEvents = await getEvents(token, user, 100, 0);
-      const promises = currentEvents.map(async (event) => {
-        const eventDetail = await getEvent(token, user, event.id);
-        return {
-          ...eventDetail,
-          ...event,
-        };
-      });
-      const eventDetails = await Promise.all(promises);
-      setEvents(eventDetails);
+      setEvents(currentEvents);
     } catch (error) {
       if (error instanceof Error) {
         setError(error);
@@ -38,11 +33,15 @@ const useEvents = () => {
   useEffect(() => {
     get();
   }, [get]);
-  return { getEvents: get, isLoading, events, error };
+
+  return { events, isLoading, error };
 };
 
 export default useEvents;
 
+/**
+ * GET /user/:id/event のレスポンス
+ */
 type GetEventsResponse = {
   events: {
     id: string;
@@ -58,60 +57,29 @@ type GetEventsResponse = {
   }[];
 };
 
+/**
+ * GET /user/:id/event
+ * ユーザーが主催するイベント一覧を取得する
+ */
 const getEvents = async (
   token: string,
   user: User,
   limit: number,
   offset: number,
-) => {
+): Promise<SafaEvent[]> => {
   const response = await fetchApi<undefined, GetEventsResponse>(
     token,
     'GET',
     `/user/${user.id}/event?host_company_name=${user.companyId}?limit=${limit}&offset=${offset}`,
   );
-  const eventsTmp = response.data.events.map((e) => {
+  const promises = response.data.events.map(async (event) => {
+    const eventDetail = await getEvent(token, user, event.id);
     return {
-      id: e.id,
-      title: e.title,
-      hostCompanyName: e.host_company_name,
-      address: e.address,
-      participantCount: e.participant_count,
-      unitPrice: e.unit_price,
-      leaderName: e.leader_name,
-      willStartAt: new Date(e.will_start_at),
-      willCompleteAt: new Date(e.will_complete_at),
-      applicationDeadline: new Date(e.application_deadline),
+      ...eventDetail,
+      ...event,
     };
   });
+  const eventDetails = await Promise.all(promises);
 
-  const events = eventsTmp.map((e) => {
-    const { label, color } = getStatus(e);
-    return {
-      ...e,
-      status: {
-        label,
-        color,
-      },
-    };
-  });
-  return events;
-};
-
-const getStatus = (event: Omit<SafaEvent, 'status'>) => {
-  const now = new Date();
-  // 募集中
-  if (now < event.applicationDeadline) {
-    return { label: '募集中', color: appColors.chipYellow };
-  }
-  // 募集終了、開始前
-  if (event.applicationDeadline <= now && now < event.willStartAt) {
-    return { label: '募集完了', color: appColors.chipGreen };
-  }
-  if (event.willStartAt <= now && now < event.willCompleteAt) {
-    return { label: '開催中', color: appColors.chipRed };
-  }
-  if (event.willCompleteAt <= now) {
-    return { label: '終了', color: appColors.bgGray };
-  }
-  return { label: '不明', color: '#fff' };
+  return eventDetails;
 };
