@@ -73,15 +73,14 @@ export const getEvent = async (
   eventId: string,
 ): Promise<SafaEvent> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const response: any = await fetchApi<undefined, GetEventResponse>(
+  const response = await fetchApi<undefined, GetEventResponse>(
     token,
     'GET',
     // TODO: 本番APIが完成したら切り変える
     // `/event/${user.id}/event/${eventId}`,
     `/event/${eventId}`,
   );
-  const eventSC = response.data.events[0];
-  // const eventSC = response.data;
+  const eventSC = response.data;
   const eventBase = {
     id: eventSC.id,
     title: eventSC.title,
