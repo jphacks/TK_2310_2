@@ -1,10 +1,11 @@
 import { auth } from '@/firebase/client';
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { atom, useAtom } from 'jotai';
-import { tokenAtom } from '../auth/tokenAtom';
+import { tokenAtom } from '../(auth)/tokenAtom';
 import fetchApi from '@/lib/fetch';
 import { useEffect } from 'react';
 import { atomWithStorage } from 'jotai/utils';
+import { useRouter } from 'next/navigation';
 
 const userAtom = atom<User | undefined>(undefined);
 
@@ -30,6 +31,8 @@ const useUser = () => {
   const [user, setUser] = useAtom(userAtom);
   const [userId, setUserId] = useAtom(userIdAtom);
 
+  const router = useRouter();
+
   const login = async (email: string, password: string) => {
     const { userId: currentUserId, token } = await _login(email, password);
     setToken(token);
@@ -50,6 +53,7 @@ const useUser = () => {
     auth.signOut();
     setToken(undefined);
     setUser(undefined);
+    router.push('/login');
   };
 
   return { login, logout, user };
