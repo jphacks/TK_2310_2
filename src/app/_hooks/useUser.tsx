@@ -56,7 +56,7 @@ const useUser = () => {
     router.push('/login');
   };
 
-  return { login, logout, user };
+  return { login, logout, user, token };
 };
 
 export default useUser;

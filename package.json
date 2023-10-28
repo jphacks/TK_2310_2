@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",
+    "@mui/x-data-grid": "^6.17.0",
     "axios": "^1.6.0",
     "encoding": "^0.1.13",
     "firebase": "^10.5.2",

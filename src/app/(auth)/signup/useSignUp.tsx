@@ -4,7 +4,6 @@ import { createUserWithEmailAndPassword } from '@firebase/auth';
 
 type AuthSignUpPostRequest = {
   company_id: string | undefined;
-  user_name: string;
   display_name: string;
   icon_url: string | undefined;
 };
@@ -12,7 +11,6 @@ type AuthSignUpPostRequest = {
 type AuthSignUpPostResponse = {
   user_id: string;
   company_id: string;
-  user_name: string;
   display_name: string;
   icon_url: string;
 };
@@ -26,21 +24,35 @@ const useSignUp = () => {
     );
     const token = await userCredential.user.getIdToken();
 
-    // ユーザー情報をバックエンドへ登録
+    return { token };
+  };
+
+  const createProfile = async (
+    token: string,
+    profile: {
+      companyId: string;
+      displayName: string;
+      iconFile: File | undefined;
+    },
+  ) => {
+    // TODO: Firebase storageにアイコンをアップロード
+
     const response = await fetchApi<
       AuthSignUpPostRequest,
       AuthSignUpPostResponse
     >(token, 'POST', '/auth/signup', {
-      company_id: 'string',
-      user_name: 'string',
-      display_name: 'string',
-      icon_url: 'string',
+      company_id: profile.companyId,
+      display_name: profile.displayName,
+      icon_url: '',
     });
-    console.log(response);
-    return userCredential.user;
+
+    if (response.status !== 200) {
+      // TODO: SAFA APIからのエラーをハンドリングする
+      throw new Error('Error in createProfile');
+    }
   };
 
-  return { signUp };
+  return { signUp, createProfile };
 };
 
 export default useSignUp;

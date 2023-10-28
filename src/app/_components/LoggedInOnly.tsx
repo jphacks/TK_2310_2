@@ -14,10 +14,7 @@ const LoggedInOnly = ({ children }: Props) => {
     router.push('/login');
   }, [isLoggedIn, router]);
 
-  if (isLoggedIn) {
-    return children;
-  }
-  return null;
+  return children;
 };
 
 export default LoggedInOnly;

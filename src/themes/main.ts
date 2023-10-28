@@ -42,4 +42,7 @@ export const appColors = {
   bgGray: '#f0f0f0',
   textGray: '#888888',
   bgOrange: '#FFFFF5E0',
+  chipYellow: '#F5F5C1',
+  chipGreen: '#C1F5C1',
+  chipRed: '#F5C1C1',
 };
