@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import MuiProvider from './_components/MuiProvider';
 import { ReactNode } from 'react';
+import Background from './_components/Background';
 
 const font = Noto_Sans_JP({ weight: 'variable', preload: false });
 
@@ -19,8 +20,9 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang='ja'>
       <body className={font.className}>
-        <MuiProvider>{children}</MuiProvider>
-        {/* {children} */}
+        <MuiProvider>
+          <Background>{children}</Background>
+        </MuiProvider>
       </body>
     </html>
   );

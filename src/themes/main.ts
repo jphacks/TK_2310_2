@@ -9,14 +9,14 @@ export const mainTheme = createTheme({
     fontWeightBold: 700,
     fontFamily: 'Noto Sans JP',
 
-    h1: { fontSize: 30 },
-    h2: { fontSize: 26 },
-    h3: { fontSize: 22 },
-    h4: { fontSize: 20 },
-    h5: { fontSize: 18 },
-    h6: { fontSize: 16 },
-    subtitle1: { fontSize: 18 },
-    subtitle2: { fontSize: 14 },
+    h1: { fontSize: 32, fontWeight: 700 },
+    h2: { fontSize: 24, fontWeight: 700 },
+    h3: { fontSize: 20, fontWeight: 700 },
+    h4: { fontSize: 0 }, // 使用しない
+    h5: { fontSize: 0 }, // 使用しない
+    h6: { fontSize: 0 }, // 使用しない
+    subtitle1: { fontSize: 16, fontWeight: 500 },
+    subtitle2: { fontSize: 0 },
     body1: { fontSize: 16 },
     body2: { fontSize: 12 },
     // ボタンのアルファベット大文字化を無効にする
@@ -24,9 +24,21 @@ export const mainTheme = createTheme({
   },
   palette: {
     primary: {
-      main: '#00b8c8',
+      main: '#6D9B00',
       contrastText: '#fff',
-      light: '#e1f1f3',
+      light: '#E3F4C1',
+      dark: '#51661E',
+    },
+    secondary: {
+      main: '#88501A',
+      contrastText: '#fff',
+      light: '#FDF1DB',
     },
   },
 });
+
+export const appColors = {
+  primaryAccent: '#C6F075',
+  bgGray: '#f0f0f0',
+  textGray: '#888888',
+};
