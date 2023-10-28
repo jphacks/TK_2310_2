@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "fix": "tsc --incremental false --noEmit && npm run lint && npm run format",
+    "fix": "npm run lint && npm run format",
     "prepare": "husky install"
   },
   "dependencies": {

@@ -1,12 +1,18 @@
+'use client';
 // import { AppBar } from '@mui/material';
 
 import { Box, Button, Paper, Typography } from '@mui/material';
 import AppBar from './_components/AppBar';
+import useUser from './_hooks/useUser';
 
 const HomePage = () => {
+  const { user } = useUser();
   return (
     <main>
       <AppBar></AppBar>
+      <p>{user?.userName}</p>
+      <p>{user?.id}</p>
+      <p>{user?.displayName}</p>
 
       <Button variant='contained' color='primary'>
         Button
