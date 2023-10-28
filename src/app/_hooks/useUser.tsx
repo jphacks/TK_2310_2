@@ -47,7 +47,7 @@ const useUser = () => {
     (async () => {
       // トークンの有効期限が切れていたらトークンを更新
       const newToken = await getNewTokenIfNeed(token);
-      if (newToken !== token) {
+      if (newToken && newToken !== token) {
         setToken(newToken);
       }
       const user = await getUser(token, userId);
