@@ -43,19 +43,17 @@ export default useEvents;
  * GET /user/:id/event のレスポンス
  */
 type GetEventsResponse = {
-  events: {
-    id: string;
-    title: string;
-    host_company_name: string;
-    address: string;
-    participant_count: number;
-    unit_price: number;
-    will_start_at: string;
-    will_complete_at: string;
-    application_deadline: string;
-    leader_name: string | undefined;
-  }[];
-};
+  id: string;
+  title: string;
+  host_company_name: string;
+  address: string;
+  participant_count: number;
+  unit_price: number;
+  will_start_at: string;
+  will_complete_at: string;
+  application_deadline: string;
+  leader_name: string | undefined;
+}[];
 
 /**
  * GET /user/:id/event
@@ -72,7 +70,8 @@ const getEvents = async (
     'GET',
     `/user/${user.id}/event?host_company_name=${user.companyId}?limit=${limit}&offset=${offset}`,
   );
-  const promises = response.data.events.map(async (event) => {
+
+  const promises = response.data.map(async (event) => {
     const eventDetail = await getEvent(token, user, event.id);
     return {
       ...eventDetail,

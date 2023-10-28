@@ -76,8 +76,6 @@ export const getEvent = async (
   const response = await fetchApi<undefined, GetEventResponse>(
     token,
     'GET',
-    // TODO: 本番APIが完成したら切り変える
-    // `/event/${user.id}/event/${eventId}`,
     `/event/${eventId}`,
   );
   const eventSC = response.data;
@@ -135,8 +133,7 @@ const getParticipants = async (
     token,
     'GET',
     // TODO: 本番APIが完成したら切り変える
-    `/event/${eventId}/participants`,
-    // `/event/:id/participant`,
+    `/event/${eventId}/participant`,
   );
   const participants = response.data.participants.map((participant) => {
     return {
