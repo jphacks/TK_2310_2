@@ -135,8 +135,8 @@ const getParticipants = async (
     token,
     'GET',
     // TODO: 本番APIが完成したら切り変える
-    // `/event/${eventId}/participants`,
-    `/event/:id/participant`,
+    `/event/${eventId}/participants`,
+    // `/event/:id/participant`,
   );
   const participants = response.data.participants.map((participant) => {
     return {
