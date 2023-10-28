@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { FirebaseError } from 'firebase/app';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 type Props = {
@@ -70,7 +71,7 @@ const SignUpView = ({ signUp }: Props) => {
   const isValid = !getErrorEmail(email) && !getErrorPassword(password);
 
   return (
-    <Box>
+    <Box sx={{ p: 1 }}>
       <Box sx={{ pt: 8 }}>
         <Stack direction='column' spacing={2} justifyContent='center'>
           <Typography variant='h1' align='center' sx={{ fontSize: '3rem' }}>
@@ -131,6 +132,11 @@ const SignUpView = ({ signUp }: Props) => {
             >
               登録する
             </Button>
+            <Link href='/login'>
+              <Typography variant='body2' align='center'>
+                既にアカウントをお持ちの方はこちら
+              </Typography>
+            </Link>
           </Box>
         </Stack>
       </Box>

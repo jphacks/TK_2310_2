@@ -17,6 +17,7 @@ import { appColors } from '@/themes/main';
 import Image from 'next/image';
 import { FirebaseError } from 'firebase/app';
 import useUser from '../../_hooks/useUser';
+import Link from 'next/link';
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string | undefined>(undefined);
@@ -67,11 +68,6 @@ const LoginPage = () => {
 
   const isValid = !getErrorEmail(email) && !getErrorPassword(password);
 
-  // const signUp = async (email: string, password: string) => {
-  //   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-  //   return userCredential.user;
-  // }
-
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
@@ -104,8 +100,6 @@ const LoginPage = () => {
     <Box sx={{ background: appColors.bgOrange, minHeight: '100vh' }}>
       {progress && <LinearProgress />}
       <Container component='main' maxWidth='xs' sx={{}}>
-        {/* <Stack justifyContent='center' direction='column'>
-        </Stack> */}
         <Box>
           <Box sx={{ pt: 8 }}>
             <Stack direction='column' spacing={2} justifyContent='center'>
@@ -172,6 +166,11 @@ const LoginPage = () => {
                 >
                   ログイン
                 </Button>
+                <Link href='/signup' style={{ color: 'black' }}>
+                  <Typography variant='body2' align='center'>
+                    アカウントをお持ちでない場合はこちら
+                  </Typography>
+                </Link>
               </Box>
             </Stack>
           </Box>

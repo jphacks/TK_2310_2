@@ -41,7 +41,7 @@ const CreateProfileView = ({ createProfile }: Props) => {
   };
 
   return (
-    <div>
+    <Box sx={{ p: 1 }}>
       <Box sx={{ pt: 8 }}>
         <Typography variant='h2' align='center' sx={{ mb: 8 }}>
           プロフィールを作成
@@ -80,7 +80,7 @@ const CreateProfileView = ({ createProfile }: Props) => {
           </Button>
         </Stack>
       </Box>
-    </div>
+    </Box>
   );
 };
 
