@@ -13,6 +13,7 @@ import {
   DataGrid,
   GridColDef,
   GridRenderCellParams,
+  GridRowParams,
   GridTreeNodeWithRender,
   GridValueGetterParams,
 } from '@mui/x-data-grid';
@@ -20,6 +21,7 @@ import EventStatusChop from './_components/EventStatusChip';
 import ApplicationProgress from './_components/ApplicationProgress';
 import Link from 'next/link';
 import AddIcon from '@mui/icons-material/Add';
+import { useRouter } from 'next/navigation';
 
 type EventListProps = {
   events: SafaEvent[] | undefined;
@@ -28,6 +30,11 @@ type EventListProps = {
 };
 
 const EventList = ({ events, error, isLoading }: EventListProps) => {
+  const router = useRouter();
+  const handleRowClick = (params: GridRowParams) => {
+    router.push(`/events/${params.id}`);
+  };
+
   const columns: GridColDef[] = [
     {
       field: 'status',
@@ -105,8 +112,12 @@ const EventList = ({ events, error, isLoading }: EventListProps) => {
         <DataGrid
           rows={events || []}
           columns={columns}
+          onRowClick={handleRowClick}
           sx={{
             border: 'none',
+            '&:hover': {
+              cursor: 'pointer',
+            },
             // 横線を消す
             '& .MuiDataGrid-cell': {
               border: 'none',
