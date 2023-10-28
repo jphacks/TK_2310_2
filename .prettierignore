@@ -1,0 +1,28 @@
+# Ignore artifacts:
+build
+coverage
+yarn.lock
+
+# dotfile
+.env*
+
+# markdown
+*.md
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# yarn
+/.yarn/
+
+# amplify
+/amplify/**/*.json
+/amplify/**/*.d.ts
+/src/ui-components/
+/src/graphql
+/src/API.ts
+
