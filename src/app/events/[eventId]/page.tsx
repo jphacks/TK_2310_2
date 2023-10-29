@@ -33,7 +33,6 @@ const EventDetailPage = ({ params }: { params: { eventId: string } }) => {
           <ParticipantsList participants={event.participants} />
         </Stack>
       </main>
-      {eventId}
     </div>
   );
 };
