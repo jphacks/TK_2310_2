@@ -215,7 +215,7 @@ const EventConfig = ({ eventDraft, setEventDraft }: Props) => {
             />
             <Box sx={{ width: '100%' }} />
           </Stack>
-          {validationMessage && (
+          {validationMessage !== true && (
             <Alert severity='error'>
               <AlertTitle>{validationMessage}</AlertTitle>
             </Alert>

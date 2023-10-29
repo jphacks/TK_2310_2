@@ -23,8 +23,8 @@ const FileUploadButton = ({ file, label, setFile }: Props) => {
         <Stack alignItems='center'>
           <Image
             src={URL.createObjectURL(file)}
-            width={150}
-            height={150}
+            width={300}
+            height={300}
             alt='Icon image'
           />
         </Stack>
@@ -32,6 +32,7 @@ const FileUploadButton = ({ file, label, setFile }: Props) => {
       <Button
         startIcon={<FileUploadIcon />}
         onClick={() => inputRef.current?.click()}
+        sx={{ height: '100%' }}
       >
         {label}
       </Button>

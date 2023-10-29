@@ -14,6 +14,8 @@ import { atom, useAtom } from 'jotai';
 import { createEvent } from '../../_hooks/createEvent';
 import useUser from '@/app/_hooks/useUser';
 import { useRouter } from 'next/navigation';
+import FileUploadButton from '@/app/_components/FileUpload';
+import { mainTheme } from '@/themes/main';
 
 const eventDraftAtom = atom<SafaEventDraft>({
   title: '',
@@ -38,6 +40,8 @@ const CreateEventInput = () => {
   const setLatitudeLongitude = (latitude: number, longitude: number) => {
     setEventDraft((current) => ({ ...current, latitude, longitude }));
   };
+
+  const [adImage, setAdImage] = useState<File>();
 
   const { user, token } = useUser();
 
@@ -83,6 +87,32 @@ const CreateEventInput = () => {
               }}
             />
           </Box>
+          <Box sx={{ width: '100%', p: 1, boxSizing: 'border-box' }}>
+            <Typography variant='h3' gutterBottom>
+              広告の画像をアップロード
+            </Typography>
+            <Stack
+              sx={{
+                background: mainTheme.palette.primary.light,
+                height: 400,
+                justifyContent: 'center',
+              }}
+            >
+              <FileUploadButton
+                label='ここに画像ファイルを追加してください'
+                file={adImage}
+                setFile={(file) => setAdImage(file)}
+              />
+            </Stack>
+            <Box m={1}>
+              <Typography>
+                ・1つのイベントで使用できる広告は1種類のみです
+              </Typography>
+              <Typography>
+                ・ゴミ拾いイベントに参加する全てのSAFAユーザーがこの広告を身につけて活動します
+              </Typography>
+            </Box>
+          </Box>
         </Carousel>
 
         <Stack direction='row' justifyContent='space-between'>
@@ -98,7 +128,7 @@ const CreateEventInput = () => {
             )}
           </div>
           <div>
-            {activeStep !== 1 && (
+            {activeStep !== 2 && (
               <Button
                 variant='contained'
                 sx={{ mt: 4 }}
@@ -107,7 +137,7 @@ const CreateEventInput = () => {
                 次へ
               </Button>
             )}
-            {activeStep === 1 && (
+            {activeStep === 2 && (
               <Button
                 variant='contained'
                 color='secondary'

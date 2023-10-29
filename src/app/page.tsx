@@ -19,7 +19,9 @@ const HomePage = () => {
           <EventList events={events} error={error} isLoading={isLoading} />
         </Box>
         <Container maxWidth='lg'>
-          <Button onClick={logout}>ログアウト</Button>
+          <Button onClick={logout} variant='outlined'>
+            ログアウト
+          </Button>
         </Container>
       </LoggedInOnly>
     </div>
