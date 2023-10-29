@@ -8,8 +8,10 @@ import SignUpView from './_components/SignupView';
 import Carousel from '@/app/_components/Carousel';
 import CreateProfileView from './_components/CreateProfileView';
 import { useRouter } from 'next/navigation';
+import { useAtom } from 'jotai';
+import { tokenAtom } from '../tokenAtom';
 const SignUpPage = () => {
-  const [token, setToken] = useState<string | undefined>(undefined);
+  const [token, setToken] = useAtom(tokenAtom);
 
   const [progress, setProgress] = useState(false);
 
