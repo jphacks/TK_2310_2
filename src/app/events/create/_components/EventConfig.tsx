@@ -13,7 +13,7 @@ import {
   TimePicker,
 } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 type Props = {
   eventDraft: SafaEventDraft;
@@ -184,18 +184,21 @@ const EventConfig = ({ eventDraft, setEventDraft }: Props) => {
             <DatePicker
               label='開催日'
               sx={{ width: '100%' }}
+              value={dayjs(eventDraft.willStartAt)}
               onChange={handleStartDateChange}
               views={['year', 'month', 'day']}
             />
             <TimePicker
               label='開始時刻'
               sx={{ width: '100%' }}
+              value={dayjs(eventDraft.willStartAt)}
               onChange={handleStartTimeChange}
               views={['hours', 'minutes']}
             />
             <TimePicker
               label='終了時刻'
               sx={{ width: '100%' }}
+              value={dayjs(eventDraft.willCompleteAt)}
               onChange={handleEndTimeChange}
               views={['hours', 'minutes']}
             />
@@ -204,12 +207,14 @@ const EventConfig = ({ eventDraft, setEventDraft }: Props) => {
             <DatePicker
               label='募集締切日'
               sx={{ width: '100%' }}
+              value={dayjs(eventDraft.applicationDeadline)}
               onChange={handleApplicationDeadlineDateChange}
               views={['year', 'month', 'day']}
             />
             <TimePicker
               label='締切時刻'
               sx={{ width: '100%' }}
+              value={dayjs(eventDraft.applicationDeadline)}
               onChange={handleApplicationDeadlineTimeChange}
               views={['hours', 'minutes']}
             />
